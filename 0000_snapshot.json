@@ -1,0 +1,550 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "3ddd91bc-bdab-4205-8a04-bb8bfaf03d5e",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "Animal": {
+      "name": "Animal",
+      "columns": {
+        "Animal_ID": {
+          "name": "Animal_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Tag_No": {
+          "name": "Tag_No",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Gender": {
+          "name": "Gender",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Age": {
+          "name": "Age",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Health_Status": {
+          "name": "Health_Status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Species_ID": {
+          "name": "Species_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "Animal_Tag_No_unique": {
+          "name": "Animal_Tag_No_unique",
+          "columns": [
+            "Tag_No"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "Animal_Species_ID_Species_Species_ID_fk": {
+          "name": "Animal_Species_ID_Species_Species_ID_fk",
+          "tableFrom": "Animal",
+          "tableTo": "Species",
+          "columnsFrom": [
+            "Species_ID"
+          ],
+          "columnsTo": [
+            "Species_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "Animal_Age_nonnegative": {
+          "name": "Animal_Age_nonnegative",
+          "value": "\"Animal\".\"Age\" >= 0"
+        }
+      }
+    },
+    "Animal_Audit": {
+      "name": "Animal_Audit",
+      "columns": {
+        "Audit_ID": {
+          "name": "Audit_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Animal_ID": {
+          "name": "Animal_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Old_Status": {
+          "name": "Old_Status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "New_Status": {
+          "name": "New_Status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Change_Time": {
+          "name": "Change_Time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "Medical_Record": {
+      "name": "Medical_Record",
+      "columns": {
+        "Record_ID": {
+          "name": "Record_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Diagnosis": {
+          "name": "Diagnosis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Treatment": {
+          "name": "Treatment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Record_Date": {
+          "name": "Record_Date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Animal_ID": {
+          "name": "Animal_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Vet_ID": {
+          "name": "Vet_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Medical_Record_Animal_ID_Animal_Animal_ID_fk": {
+          "name": "Medical_Record_Animal_ID_Animal_Animal_ID_fk",
+          "tableFrom": "Medical_Record",
+          "tableTo": "Animal",
+          "columnsFrom": [
+            "Animal_ID"
+          ],
+          "columnsTo": [
+            "Animal_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Medical_Record_Vet_ID_Veterinarian_Vet_ID_fk": {
+          "name": "Medical_Record_Vet_ID_Veterinarian_Vet_ID_fk",
+          "tableFrom": "Medical_Record",
+          "tableTo": "Veterinarian",
+          "columnsFrom": [
+            "Vet_ID"
+          ],
+          "columnsTo": [
+            "Vet_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "Rehabilitation_Program": {
+      "name": "Rehabilitation_Program",
+      "columns": {
+        "Program_ID": {
+          "name": "Program_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Program_Name": {
+          "name": "Program_Name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Duration": {
+          "name": "Duration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Objective": {
+          "name": "Objective",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "Rehabilitation_Program_Duration_nonnegative": {
+          "name": "Rehabilitation_Program_Duration_nonnegative",
+          "value": "\"Rehabilitation_Program\".\"Duration\" >= 0"
+        }
+      }
+    },
+    "Rehabilitation_Record": {
+      "name": "Rehabilitation_Record",
+      "columns": {
+        "Rehab_ID": {
+          "name": "Rehab_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Start_Date": {
+          "name": "Start_Date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "End_Date": {
+          "name": "End_Date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Progress_Status": {
+          "name": "Progress_Status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Animal_ID": {
+          "name": "Animal_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Program_ID": {
+          "name": "Program_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Rehabilitation_Record_Animal_ID_Animal_Animal_ID_fk": {
+          "name": "Rehabilitation_Record_Animal_ID_Animal_Animal_ID_fk",
+          "tableFrom": "Rehabilitation_Record",
+          "tableTo": "Animal",
+          "columnsFrom": [
+            "Animal_ID"
+          ],
+          "columnsTo": [
+            "Animal_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Rehabilitation_Record_Program_ID_Rehabilitation_Program_Program_ID_fk": {
+          "name": "Rehabilitation_Record_Program_ID_Rehabilitation_Program_Program_ID_fk",
+          "tableFrom": "Rehabilitation_Record",
+          "tableTo": "Rehabilitation_Program",
+          "columnsFrom": [
+            "Program_ID"
+          ],
+          "columnsTo": [
+            "Program_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "rehab_dates": {
+          "name": "rehab_dates",
+          "value": "\"Rehabilitation_Record\".\"End_Date\" IS NULL OR \"Rehabilitation_Record\".\"End_Date\" >= \"Rehabilitation_Record\".\"Start_Date\""
+        }
+      }
+    },
+    "Rescue_Event": {
+      "name": "Rescue_Event",
+      "columns": {
+        "Rescue_ID": {
+          "name": "Rescue_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Rescue_Date": {
+          "name": "Rescue_Date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Rescue_Location": {
+          "name": "Rescue_Location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Rescue_Reason": {
+          "name": "Rescue_Reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Animal_ID": {
+          "name": "Animal_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Team_ID": {
+          "name": "Team_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Rescue_Event_Animal_ID_Animal_Animal_ID_fk": {
+          "name": "Rescue_Event_Animal_ID_Animal_Animal_ID_fk",
+          "tableFrom": "Rescue_Event",
+          "tableTo": "Animal",
+          "columnsFrom": [
+            "Animal_ID"
+          ],
+          "columnsTo": [
+            "Animal_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "Rescue_Event_Team_ID_Rescue_Team_Team_ID_fk": {
+          "name": "Rescue_Event_Team_ID_Rescue_Team_Team_ID_fk",
+          "tableFrom": "Rescue_Event",
+          "tableTo": "Rescue_Team",
+          "columnsFrom": [
+            "Team_ID"
+          ],
+          "columnsTo": [
+            "Team_ID"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "Rescue_Team": {
+      "name": "Rescue_Team",
+      "columns": {
+        "Team_ID": {
+          "name": "Team_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Team_Name": {
+          "name": "Team_Name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Contact_No": {
+          "name": "Contact_No",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "Species": {
+      "name": "Species",
+      "columns": {
+        "Species_ID": {
+          "name": "Species_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Species_Name": {
+          "name": "Species_Name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Scientific_Name": {
+          "name": "Scientific_Name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Conservation_Status": {
+          "name": "Conservation_Status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Habitat": {
+          "name": "Habitat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "Species_Species_Name_unique": {
+          "name": "Species_Species_Name_unique",
+          "columns": [
+            "Species_Name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "Veterinarian": {
+      "name": "Veterinarian",
+      "columns": {
+        "Vet_ID": {
+          "name": "Vet_ID",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "Name": {
+          "name": "Name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "Specialization": {
+          "name": "Specialization",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "Contact_No": {
+          "name": "Contact_No",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

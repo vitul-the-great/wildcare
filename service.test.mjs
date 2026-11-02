@@ -1,0 +1,14 @@
+import {DatabaseSync} from 'node:sqlite';import {readFileSync} from 'node:fs';import assert from 'node:assert/strict';import {handle} from '../lib/service.mjs';
+const sql=new DatabaseSync(':memory:');sql.exec('PRAGMA foreign_keys=ON');sql.exec(readFileSync(new URL('../drizzle/0000_brief_cloak.sql',import.meta.url),'utf8'));
+const db={all:async(q,p)=>sql.prepare(q).all(...p),batch:async(cmds)=>{sql.exec('BEGIN');try{for(const c of cmds)sql.prepare(c.sql).run(...c.params);sql.exec('COMMIT')}catch(e){sql.exec('ROLLBACK');throw e}}};
+await handle(db,'POST',{action:'seed'});await handle(db,'POST',{action:'seed'});assert.equal((await handle(db,'GET')).Animal.length,5);
+await handle(db,'POST',{action:'update',table:'Animal',id:104,record:{Health_Status:'Healthy'}});assert.equal((await handle(db,'GET')).Animal_Audit.length,1);
+await handle(db,'POST',{action:'update',table:'Animal',id:104,record:{Age:5}});assert.equal((await handle(db,'GET')).Animal_Audit.length,1);
+await assert.rejects(handle(db,'POST',{action:'create',table:'Animal',record:{Animal_ID:106,Tag_No:'A106',Age:-1}}),/Invalid Age/);
+await assert.rejects(handle(db,'POST',{action:'delete',table:'Animal',id:101}),/FOREIGN KEY/);
+await assert.rejects(handle(db,'POST',{action:'create',table:'Rehabilitation_Record',record:{Rehab_ID:6,Animal_ID:101,Program_ID:1,Start_Date:'2026-02-01',End_Date:'2026-01-01'}}),/End date/);
+await assert.rejects(handle(db,'POST',{action:'rescue',animal:{Animal_ID:106,Tag_No:'A106',Species_ID:1},record:{Rescue_ID:6,Animal_ID:106,Team_ID:999,Rescue_Date:'2026-11-02'}}));assert.equal((await handle(db,'GET')).Animal.length,5);
+await handle(db,'POST',{action:'rescue',animal:{Animal_ID:106,Tag_No:'A106',Species_ID:1},record:{Rescue_ID:6,Animal_ID:106,Team_ID:1,Rescue_Date:'2026-11-02'}});assert.equal((await handle(db,'GET')).Animal.length,6);
+await assert.rejects(handle(db,'POST',{action:'create',table:'Animal',record:{Animal_ID:107,Tag_No:'A106'}}),/UNIQUE/);
+await assert.rejects(handle(db,'POST',{action:'create',table:'Animal; DROP TABLE Animal',record:{}}),/Unknown/);
+console.log('PASS: seeding, audit, validation, FK protection, transaction rollback, rescue create, duplicate tags, table allowlist');
